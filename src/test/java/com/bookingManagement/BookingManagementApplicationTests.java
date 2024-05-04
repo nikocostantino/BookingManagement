@@ -1,4 +1,4 @@
-package com.bookingManagement.bookingManagement;
+package com.bookingManagement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

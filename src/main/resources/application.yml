@@ -1,0 +1,26 @@
+spring:
+    application:
+        name: bookingManagement
+
+    datasource:
+        platform: postgres
+        driver-class-name: org.postgresql.Driver
+        url: jdbc:postgresql://localhost:5432/bookingManagement
+        username: postgres
+        password: ENC(pnUnYQn0ld1tbfwiymh1zTts4a4311fn)
+    hikari:
+        connection-timeout: 20000
+        maximum-pool-size: 5
+    jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate.ddl-auto: update
+        show-sql: true
+jasypt:
+    encryptor:
+        algorithm: PBEWithMD5AndDES
+        iv-generator-classname: org.jasypt.iv.NoIvGenerator
+        password: h7A@L(U.81XL
+
+
+server:
+    port: 8081
