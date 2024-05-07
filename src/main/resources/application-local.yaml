@@ -1,0 +1,8 @@
+spring:
+  config:
+    import:
+      - jaggaer-prep.yaml
+      - tomcat-local.yaml
+cron:
+  expression:
+    massive_batch: "0 0 23 * * *"
