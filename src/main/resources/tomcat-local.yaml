@@ -1,0 +1,12 @@
+server:
+  tomcat:
+    basedir: C:/tomcat/
+    skip-jars: xercesImpl.jar,xml-apis.jar,serializer.jar,xml-apis.jar
+external:
+  enabled: true
+  war:
+    file: "C:/tomcat/webapps/knpc/knpc-fe-29.war"
+    context: "/ktendering/ui"
+
+
+
