@@ -20,7 +20,7 @@ import java.util.Arrays;
 @Slf4j
 public class TomcatConfig {
 
-    private static final String CHILD_TOM = "webapps";
+    /*private static final String CHILD_TOM = "webapps";
 
     @Value("${server.tomcat.skip-jars}")
     private String skipJars;
@@ -72,6 +72,6 @@ public class TomcatConfig {
             }
 
         };
-    }
+    }*/
 }
 
