@@ -85,4 +85,24 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
         }
     }
+    @PutMapping("/updateNumClient")
+    public ResponseEntity<?> updateNumClient(@RequestBody Integer num) {
+        try {
+            return ResponseEntity.ok("");
+        } catch (Exception e) {
+            log.error("An unexpected error occurred", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+        }
+    }
+
+
+    @PutMapping("/openClose")
+    public ResponseEntity<?> openClose(@RequestBody Boolean close) {
+        try {
+            return ResponseEntity.ok("");
+        } catch (Exception e) {
+            log.error("An unexpected error occurred", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+        }
+    }
 }

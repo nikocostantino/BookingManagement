@@ -6,9 +6,13 @@ spring:
     datasource:
         platform: postgres
         driver-class-name: org.postgresql.Driver
-        url: jdbc:postgresql://localhost:5432/bookingManagement
-        username: postgres
-        password: ENC(pnUnYQn0ld1tbfwiymh1zTts4a4311fn)
+        #url: jdbc:postgresql://localhost:5432/bookingManagement
+        url: jdbc:postgresql://dpg-ctqleol2ng1s73eato70-a.oregon-postgres.render.com:5432/bookingmanagement
+
+        #username: postgres
+        username: bookingmanagement_user
+        #password: ENC(pnUnYQn0ld1tbfwiymh1zTts4a4311fn)
+        password: dWfivWHkVdOtLfiamLAimikvWTPgsGGB
     hikari:
         connection-timeout: 20000
         maximum-pool-size: 5

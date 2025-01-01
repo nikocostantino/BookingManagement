@@ -3,7 +3,6 @@ package com.bookingManagement.controller;
 import com.bookingManagement.dto.BookingDTO;
 import com.bookingManagement.dto.ListBookingDTO;
 import com.bookingManagement.entities.Booking;
-import com.bookingManagement.model.Role;
 import com.bookingManagement.model.User;
 import com.bookingManagement.repository.BookingRepository;
 import com.bookingManagement.util.MyModelMapper;
@@ -12,8 +11,6 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -21,7 +18,6 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.apache.tomcat.util.http.FastHttpDateFormat.parseDate;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 
 @RestController
@@ -77,6 +73,16 @@ public class HomeController {
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found with ID: " + id);
             }
+        } catch (Exception e) {
+            log.error("An unexpected error occurred", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+        }
+    }
+
+    @GetMapping("/getNumClient")
+    public ResponseEntity<?> getNumClient() {
+        try {
+            return ResponseEntity.ok(1);
         } catch (Exception e) {
             log.error("An unexpected error occurred", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
