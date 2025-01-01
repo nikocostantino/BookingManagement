@@ -30,4 +30,4 @@ cron:
     expression:
         insertFlow: 0 0 22 1 * ?
 server:
-    port: 8081
+    port: 8080
