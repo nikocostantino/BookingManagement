@@ -18,6 +18,8 @@ public class Booking {
     private LocalDate date;
     @Column(name = "SLOT")
     private String slot;
+    @Column(name = "NOTES")
+    private String notes;
     @ManyToOne
     @JoinColumn(name="USER_ID",referencedColumnName = "id")
     private User user;

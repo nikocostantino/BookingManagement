@@ -24,7 +24,7 @@ public class ScheduledFlow {
 
     @Scheduled(cron ="${cron.expression.insertFlow}", zone = "${Europe/Rome}")
     @Bean
-    @Scope("prototype")
+    //@Scope("prototype")
     public void insertRecordInDB(){
         LocalDate now = LocalDate.now();
         LocalDate nowPluMonth = now.plusMonths(1);

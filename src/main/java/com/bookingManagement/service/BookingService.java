@@ -1,5 +1,6 @@
 package com.bookingManagement.service;
 
+import com.bookingManagement.dto.NotesDTO;
 import com.bookingManagement.repository.BookingRepository;
 import com.bookingManagement.repository.UserRepository;
 import com.bookingManagement.util.LockManager;
@@ -7,7 +8,6 @@ import com.bookingManagement.util.MyModelMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.MethodNotAllowedException;
 
 import java.util.Optional;
 
@@ -23,7 +23,7 @@ public class BookingService {
 
     private final LockManager lockManager = new LockManager();
 
-    public void bookSlot(Integer userId, Long bookingId) {
+    public void bookSlot(Integer userId, Long bookingId, Optional<NotesDTO> notes) {
         Object lock = lockManager.getLock(bookingId);
         synchronized (lock) {
             var booking = bookingRepository.findById(bookingId);
@@ -35,9 +35,12 @@ public class BookingService {
                 var user = userRepository.findById(userId);
                 if(user.isPresent()){
                     booking.get().setUser(user.get());
+                    notes.ifPresent(notesDTO -> booking.get().setNotes(notesDTO.getNotes()));
                     bookingRepository.save(booking.get());
                     log.info("Updating booking " + bookingId + " with new user: " + userId);
-                    // Dopo l'aggiornamento puoi rilasciare il lock se necessario
+                }
+                else {
+                    log.info("user doesn't exit.");
                 }
                 lockManager.releaseLock(bookingId);
             }
@@ -71,6 +74,20 @@ public class BookingService {
             else{
                 throw new IllegalArgumentException("slot is not cancellable by: "+userId);
             }
+        }
+    }
+    public void cancelBooking(Long bookingId) {
+        var booking = bookingRepository.findById(bookingId);
+        if(booking.isEmpty()){
+            throw new NullPointerException("bookingId not found");
+        }
+        if(booking.get().getUser()==null){
+            throw new IllegalStateException();
+        }
+        else {
+            booking.get().setUser(null);
+            bookingRepository.save(booking.get());
+                log.info("Slot cancelled {} cancelled", bookingId);
         }
     }
 }

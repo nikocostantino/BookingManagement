@@ -33,34 +33,13 @@ public class HomeController {
     @Autowired
     private MyModelMapper modelMapper;
 
-    @GetMapping(path="/getAllAvailableBookings")
-    public ResponseEntity<String> getAllBookings(@RequestParam Optional<String> date){
-        // Ottenere l'oggetto Authentication dal SecurityContextHolder
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // Controllare se l'utente è autenticato
-        if (authentication != null && authentication.isAuthenticated()) {
-            // Ottenere il token di autenticazione
-            Object principal = authentication.getPrincipal();
-            if (principal instanceof User) {
-                String username = ((User) principal).getUsername();
-                Role role = ((User) principal).getRole();
-                log.info("utente autenticato: "+username);
-                //TODO in base all'utente prendo quelle disponibili, cioe quelle vuote e quelle in cui c'è lui
-                if(role.equals(Role.ADMIN)){
-                    return ResponseEntity.ok("All the available bookings:"+bookingRepository.findAll());
-                }
-            }
-        }
-        return ResponseEntity.ok("All the available bookings");
-    }
-
     @GetMapping(path="/getTodayAvailableBookings")
     public ResponseEntity<ListBookingDTO> getTodayAvailableBookings(){
         try {
             List<Booking> todayBookings = bookingRepository.findAllByDateAndUserIsNull(LocalDate.now());
             ListBookingDTO listBookingDTO = new ListBookingDTO();
             listBookingDTO.setBookings(modelMapper.map(todayBookings, new TypeToken<List<BookingDTO>>(){}.getType()));
+            Thread.sleep(2000);
             return ResponseEntity.ok(listBookingDTO);
         }
         catch (Exception e){
@@ -90,7 +69,7 @@ public class HomeController {
     @GetMapping("/getBooking/{id}")
     public ResponseEntity<?> getBooking(@PathVariable Long id) {
         try {
-            Optional<Booking> bookingOptional = bookingRepository.findById(id);
+            Optional<Booking> bookingOptional = bookingRepository.findByIdAndUserIsNull(id);
             if (bookingOptional.isPresent()) {
                 Booking booking = bookingOptional.get();
                 BookingDTO bookingDTO = modelMapper.map(booking, BookingDTO.class);
