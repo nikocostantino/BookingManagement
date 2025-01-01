@@ -5,7 +5,7 @@ FROM eclipse-temurin:21-jdk-jammy
 WORKDIR /app
 
 # Copia il file .jar generato nel container
-COPY target/*.jar app.jar
+COPY target/bookingManagement-0.0.1-SNAPSHOT.jar app.jar
 
 # Esponi la porta usata dalla tua applicazione
 EXPOSE 8080
