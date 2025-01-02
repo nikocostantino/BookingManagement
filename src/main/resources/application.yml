@@ -12,7 +12,7 @@ spring:
         #username: postgres
         username: bookingmanagement_user
         #password: ENC(pnUnYQn0ld1tbfwiymh1zTts4a4311fn)
-        password: dWfivWHkVdOtLfiamLAimikvWTPgsGGB
+        password: ${DB_PASSWORD}
     hikari:
         connection-timeout: 20000
         maximum-pool-size: 5
@@ -30,4 +30,4 @@ cron:
     expression:
         insertFlow: 0 0 22 1 * ?
 server:
-    port: 8081
+    port: 8080

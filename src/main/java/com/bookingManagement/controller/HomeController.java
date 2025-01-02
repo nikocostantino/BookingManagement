@@ -1,10 +1,13 @@
 package com.bookingManagement.controller;
 
+import com.bookingManagement.dto.AppData;
 import com.bookingManagement.dto.BookingDTO;
 import com.bookingManagement.dto.ListBookingDTO;
 import com.bookingManagement.entities.Booking;
+import com.bookingManagement.entities.Data;
 import com.bookingManagement.model.User;
 import com.bookingManagement.repository.BookingRepository;
+import com.bookingManagement.repository.DataRepository;
 import com.bookingManagement.util.MyModelMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.TypeToken;
@@ -26,6 +29,8 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 public class HomeController {
     @Autowired
     private BookingRepository bookingRepository;
+    @Autowired
+    private DataRepository dataRepository;
     @Autowired
     private MyModelMapper modelMapper;
 
@@ -79,13 +84,35 @@ public class HomeController {
         }
     }
 
-    @GetMapping("/getNumClient")
-    public ResponseEntity<?> getNumClient() {
+    @GetMapping("/app-data")
+    public ResponseEntity<AppData> getAppData() {
         try {
-            return ResponseEntity.ok(1);
+            Optional<Data> data = dataRepository.findById(1L);
+            if(data.isPresent())
+                return ResponseEntity.ok(new AppData(data.get().getNum(),data.get().isChiuso(), false));
+            else{
+                Data newData = new Data(1L,1,true);
+                dataRepository.save(newData);
+                return ResponseEntity.ok(new AppData(0,false, false));
+            }
         } catch (Exception e) {
             log.error("An unexpected error occurred", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+
+
+    @PostMapping("/updateApp-data")
+    public ResponseEntity<?> updateAppData(@RequestBody AppData appData) {
+        try {
+            Data newData = new Data(1L,appData.getInitialCount(),appData.isClose());
+            dataRepository.save(newData);
+            appData.setError(false);
+            return ResponseEntity.ok(appData);
+        } catch (Exception e) {
+            log.error("An unexpected error occurred", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
